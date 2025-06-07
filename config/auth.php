@@ -105,7 +105,7 @@ function register($post)
 //init configuration
 $clientID = '350470421079-fr877s4e8jjadc6cgkhgqfspl33olq5l.apps.googleusercontent.com';
 $clientSecret = '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';
-$redirectUri = 'http://localhost/toko-smartphone/User/login.php';
+$redirectUri = 'https://esp32.scurebot.cloud/User/login.php';
 
 //creat client request to access google api
 $client = new Google_Client();
@@ -114,6 +114,7 @@ $client ->setClientSecret($clientSecret);
 $client ->setRedirectUri($redirectUri);
 $client ->addScope("email");
 $client ->addScope("profile");
+$client->setPrompt('select_account');
 
 /*
 ---------------------------------------------------------
