@@ -114,6 +114,7 @@ $client ->setClientSecret($clientSecret);
 $client ->setRedirectUri($redirectUri);
 $client ->addScope("email");
 $client ->addScope("profile");
+$client->setPrompt('select_account');
 
 /*
 ---------------------------------------------------------
