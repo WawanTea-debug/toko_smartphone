@@ -20,7 +20,7 @@ function login($post)
             $_SESSION['role'] = $data ->role;
 
             if ($data->role == 'admin'){
-                header('location: ../adminpanel/index.php');
+                header('location: ../AdminPanel/index.php');
             }else{
                 header('location: index.php');
                 exit;
@@ -105,7 +105,7 @@ function register($post)
 //init configuration
 $clientID = '350470421079-fr877s4e8jjadc6cgkhgqfspl33olq5l.apps.googleusercontent.com';
 $clientSecret = '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';
-$redirectUri = 'http://localhost/toko-smartphone/User/login.php';
+$redirectUri = 'https://esp32.scurebot.cloud/User/login.php';
 
 //creat client request to access google api
 $client = new Google_Client();
@@ -125,7 +125,7 @@ use Aws\S3\S3Client;
 $s3 = new S3Client([
     'version'     => 'latest',
     'region'      => 'us-east-1',
-    'endpoint'    => 'http://203.175.11.9:9000',
+    'endpoint'    => 'https://minio.scurebot.cloud',
     'use_path_style_endpoint' => true,
     'credentials' => [
         'key'    => 'minioadmin',

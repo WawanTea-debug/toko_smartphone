@@ -1,5 +1,5 @@
 <?php
-$con= mysqli_connect("localhost", "root","","toko_smartphone");
+$con= mysqli_connect("localhost", "tokoadmin","passwordku","toko_smartphone");
 
 if(!($con)){
     die("Koneksi gagal: " . mysqli_connect_error());
@@ -8,3 +8,5 @@ if(!($con)){
 // waktu asia
 date_default_timezone_set('Asia/Jakarta');
 ?>
+
+

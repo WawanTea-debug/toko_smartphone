@@ -24,7 +24,7 @@ function hapusProduk($id)
     $s3 = new S3Client([
         'version'     => 'latest',
         'region'      => 'us-east-1',
-        'endpoint'    => 'http://203.175.11.9:9000',
+        'endpoint'    => 'https://minio.scurebot.cloud',
         'use_path_style_endpoint' => true,
         'credentials' => [
             'key'    => 'minioadmin',
@@ -51,7 +51,7 @@ function hapusProduk($id)
         die("Gagal menghapus data produk: " . mysqli_error($con));
     }
 
-    header('Location:../adminpanel/produk_list.php?pesan=Produk berhasil dihapus');
+    header('Location:../AdminPanel/produk_list.php?pesan=Produk berhasil dihapus');
     exit;
 }
 
@@ -100,7 +100,7 @@ function hapusProduk($id)
 
     $validasi = _validation($data);
     if (isset($validasi['pesan'])) {
-        header('Location:../adminpanel/tambahProduk.php?pesan=' . urlencode($validasi['pesan']));
+        header('Location:../AdminPanel/tambahProduk.php?pesan=' . urlencode($validasi['pesan']));
         exit;
     }
 
@@ -114,7 +114,7 @@ function hapusProduk($id)
     $s3 = new S3Client([
         'version'     => 'latest',
         'region'      => 'us-east-1',
-        'endpoint'    => 'http://203.175.11.9:9000',
+        'endpoint'    => 'https://minio.scurebot.cloud',
         'use_path_style_endpoint' => true,
         'credentials' => [
             'key'    => 'minioadmin',
@@ -139,7 +139,7 @@ function hapusProduk($id)
 
         // Jika berhasil simpan, pindahkan file gambar
         if (mysqli_affected_rows($con)) {
-            header('Location:../adminpanel/produk_list.php?pesan=Data berhasil ditambahkan');
+            header('Location:../AdminPanel/produk_list.php?pesan=Data berhasil ditambahkan');
             exit;
         } else {
             echo "Terjadi kesalahan saat menyimpan produk ke database.";
@@ -197,7 +197,7 @@ function ubahProduk($id, $post)
 
     $validasi = _validation($data);
     if (isset($validasi['pesan'])) {
-        header('Location:../adminpanel/edit_produk.php?id=' . $id . '&pesan=' . urlencode($validasi['pesan']));
+        header('Location:../AdminPanel/edit_produk.php?id=' . $id . '&pesan=' . urlencode($validasi['pesan']));
         exit;
     }
 
@@ -210,7 +210,7 @@ function ubahProduk($id, $post)
     $s3 = new S3Client([
         'version'     => 'latest',
         'region'      => 'us-east-1',
-        'endpoint'    => 'http://203.175.11.9:9000',
+        'endpoint'    => 'https://minio.scurebot.cloud',
         'use_path_style_endpoint' => true,
         'credentials' => [
             'key'    => 'minioadmin',
@@ -299,7 +299,7 @@ function detailProduk($id)
     $produk = mysqli_fetch_object($kueri);
 
     
-    $minioBaseUrl = 'http://203.175.11.9:9000'; // Sesuaikan jika kamu pakai domain
+    $minioBaseUrl = 'https://minio.scurebot.cloud'; // Sesuaikan jika kamu pakai domain
     $bucketName = 'product';
 
     if (!empty($produk->image)) {

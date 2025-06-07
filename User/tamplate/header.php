@@ -74,15 +74,15 @@
                                     <i class="fa fa-user top-header-icon me-1"></i> <?= $_SESSION['username'] ?>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                                    <li><a class="dropdown-item" href="../user/logout.php"><i class="fa fa-sign-out me-2"></i>Logout</a></li>
+                                    <li><a class="dropdown-item" href="../User/logout.php"><i class="fa fa-sign-out me-2"></i>Logout</a></li>
                                 </ul>
                             <?php else: ?>
                                 <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa fa-user top-header-icon me-1"></i> My Account
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                                    <li><a class="dropdown-item" href="../user/login.php"><i class="fa fa-sign-in me-2"></i>Login</a></li>
-                                    <li><a class="dropdown-item" href="../user/register.php"><i class="fa fa-user-plus me-2"></i>Register</a></li>
+                                    <li><a class="dropdown-item" href="../User/login.php"><i class="fa fa-sign-in me-2"></i>Login</a></li>
+                                    <li><a class="dropdown-item" href="../User/register.php"><i class="fa fa-user-plus me-2"></i>Register</a></li>
                                 </ul>
                             <?php endif; ?>
                         </div>
