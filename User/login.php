@@ -57,8 +57,10 @@
     <link rel="icon" type="image/x-icon" href="../img/2.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <script src="https://unpkg.com/feather-icons"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Z7N87ApWNUK3d3Q4FEwF+0c6wT+EYjQ+ODZoYXdTYWqDwvHqRS1wz0CtbT8Q2fU9Rp1VcgQXUBdT+2zD8Yc1xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../asset/css/custom.css">
 
    
@@ -66,7 +68,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- <script src="../asset/js/main.js"></script> -->
     <title>Log In</title>
 </head>
 <body>
@@ -142,7 +143,7 @@
 
     
     
-
+  
 </body>
 </html>
 
