@@ -1,5 +1,8 @@
 <?php
 session_start();
+//print_r($_SESSION);
+
+
 require 'tamplate/header.php';
 require '../config/auth.php';
 require '../config/home.php';

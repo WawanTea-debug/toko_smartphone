@@ -37,6 +37,11 @@ function login($post)
     }
     return;
 }
+function redirect($url) {
+    header("Location: $url");
+    return;  // hanya mengakhiri fungsi redirect saja
+}
+
 
 function register($post)
 {
@@ -46,7 +51,7 @@ function register($post)
     $password = htmlspecialchars($post['password']);
     $role = 'user';
     $oauth_id = null;
-    $status = 'active';
+    $status = 1;
     $companyCode = 'COMP001';
     $isDeleted = 0;
     $createdBy = $username;
@@ -90,7 +95,7 @@ function register($post)
     // Eksekusi query
     if (mysqli_query($con, $sql)) {
         $_SESSION['sukses'] = 'Akun berhasil dibuat';
-        return header('location:../User/login.php');
+        return header('Location:../User/login.php');
     } else {
         $_SESSION['pesan'] = 'Gagal menyimpan data';
     }

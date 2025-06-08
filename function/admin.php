@@ -24,7 +24,7 @@ function hapusProduk($id)
     $s3 = new S3Client([
         'version'     => 'latest',
         'region'      => 'us-east-1',
-        'endpoint'    => 'https://minio.scurebot.cloud',
+        'endpoint'    => 'https://minio.scurebot.cloud/',
         'use_path_style_endpoint' => true,
         'credentials' => [
             'key'    => 'minioadmin',
@@ -60,7 +60,7 @@ function hapusProduk($id)
 
 /*
 -----------------------------------------------------
-|   menyimpan data request post ke dalam array yang | 
+|   menyimpan data request post ke dalam array yang |
 |   selanjutnya akan dikirimkan ke fungsivalidasi   |
 -----------------------------------------------------
 */
@@ -114,7 +114,7 @@ function hapusProduk($id)
     $s3 = new S3Client([
         'version'     => 'latest',
         'region'      => 'us-east-1',
-        'endpoint'    => 'https://minio.scurebot.cloud',
+        'endpoint'    => 'https://minio.scurebot.cloud/',
         'use_path_style_endpoint' => true,
         'credentials' => [
             'key'    => 'minioadmin',
@@ -133,7 +133,7 @@ function hapusProduk($id)
         $imageUrl = $result['ObjectURL'];
 
         // Simpan ke database
-        $query ="INSERT INTO product(id_product,brand, model, price, stock, description, image, CompanyCode, Status, IsDeleted, CreatedBy, CreatedDate) VALUES ('','$brand','$model','$price','$stock','$description','$imageUrl','$companyCode','$status','$isDeleted','$createdBy','$createdDate')";
+        $query ="INSERT INTO product(brand, model, price, stock, description, image, CompanyCode, Status, IsDeleted, CreatedBy, CreatedDate) VALUES ('$brand','$model','$price','$stock','$description','$imageUrl','$companyCode','$status','$isDeleted','$createdBy','$createdDate')";
 
         mysqli_query($con, $query);
 
@@ -167,7 +167,7 @@ function ubahProduk($id, $post)
         echo "Produk tidak ditemukan";
         exit;
     }
-    
+
     $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'guest';
     // Tangkap inputan baru
     $img          = $_FILES['image'];
@@ -210,7 +210,7 @@ function ubahProduk($id, $post)
     $s3 = new S3Client([
         'version'     => 'latest',
         'region'      => 'us-east-1',
-        'endpoint'    => 'https://minio.scurebot.cloud',
+        'endpoint'    => 'https://minio.scurebot.cloud/',
         'use_path_style_endpoint' => true,
         'credentials' => [
             'key'    => 'minioadmin',
@@ -253,7 +253,7 @@ function ubahProduk($id, $post)
     }
 
     // Update data ke database
-    $updateQuery = "UPDATE product SET 
+    $updateQuery = "UPDATE product SET
                 brand = '$brand',
                 model = '$model',
                 price = '$price',
@@ -278,7 +278,7 @@ function ubahProduk($id, $post)
 
 /*
 -----------------------------------------------------
-|   Mengambil data produk sesuai dengan ID          | 
+|   Mengambil data produk sesuai dengan ID          |
 |   dan menyimpannya ke suatu Array Objek           |
 -----------------------------------------------------
 */
@@ -298,8 +298,8 @@ function detailProduk($id)
 
     $produk = mysqli_fetch_object($kueri);
 
-    
-    $minioBaseUrl = 'https://minio.scurebot.cloud'; // Sesuaikan jika kamu pakai domain
+
+    $minioBaseUrl = 'https://minio.scurebot.cloud/'; // Sesuaikan jika kamu pakai domain
     $bucketName = 'product';
 
     if (!empty($produk->image)) {

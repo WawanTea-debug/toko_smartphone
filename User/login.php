@@ -1,53 +1,64 @@
 <?php
 
-// use Google\Service\SecurityCommandCenter\Access;
+// Debug mode
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
-    session_start();
-    require '../config/auth.php';
+ob_start();
+ini_set('session.cookie_secure', '1');
+ini_set('session.cookie_samesite', 'None'); // Jika pakai OAuth Google
 
-    if(isset($_POST['submit'])){
-        login($_POST);
-    }
-    
+session_start();
+// error_log(print_r($_SESSION, true)); // Gunakan ini untuk debug, hindari echo
 
-    $judul = 'Daftarkan akun anda dan bergabung dengan komunitas';
+require '../config/auth.php';
 
-    //authenticate code from google OAuth Flow
-    if(isset($_GET['code'])){
-        $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+if (isset($_POST['submit'])) {
+    login($_POST);
+}
 
-        if (!isset($token['error'])) {
+$judul = 'Daftarkan akun anda dan bergabung dengan komunitas';
+
+//authenticate code from google OAuth Flow
+if (isset($_GET['code'])) {
+    $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+
+    if (!isset($token['error'])) {
         $client->setAccessToken($token['access_token']);
 
-        // Pastikan autoload sudah disertakan sebelumnya
         $google_oauth = new Google_Service_Oauth2($client);
         $google_account_info = $google_oauth->userinfo->get();
 
         $g_name = $google_account_info['name'];
         $g_email = $google_account_info['email'];
         $g_id = $google_account_info['id'];
-        
-        $query_check = 'SELECT * FROM users WHERE oauth_id = "'.$g_id.'" ';
+         $password = password_hash(bin2hex(random_bytes(10)), PASSWORD_DEFAULT);
+        $query_check = 'SELECT * FROM users WHERE oauth_id = "' . $g_id . '" ';
         $run_query_check = mysqli_query($con, $query_check);
         $d = mysqli_fetch_object($run_query_check);
         if ($d) {
-            $query_update = 'UPDATE users SET username = "'.$g_name.'", email = "'.$g_email.'" WHERE oauth_id = "'.$g_id.'" ';
-            $run_query_update = mysqli_query($con, $query_update);
+            $query_update = 'UPDATE users SET username = "' . $g_name . '", email = "' . $g_email . '" WHERE oauth_id = "' . $g_id . '" ';
+            mysqli_query($con, $query_update);
         } else {
-            $query_insert = 'INSERT INTO users (username, email, oauth_id) VALUES ("'.$g_name.'", "'.$g_email.'", "'.$g_id.'") ';
-            $run_query_insert = mysqli_query($con, $query_insert);
+            $query_insert = 'INSERT INTO users (username, email, oauth_id, password) VALUES ("' . $g_name . '", "' . $g_email . '", "' . $g_id . '", "' . $password . '") ';
+            mysqli_query($con, $query_insert);
         }
-       //echo "login berhasil";
+
         $_SESSION['logged_in'] = true;
         $_SESSION['access_token'] = $token['access_token'];
         $_SESSION['username'] = $g_name;
 
-        header('location: index.php');
+        header('Location: index.php');
+        exit;
+
     } else {
         echo "eror";
     }
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
