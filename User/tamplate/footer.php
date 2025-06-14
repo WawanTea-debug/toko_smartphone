@@ -108,5 +108,68 @@
         feather.replace();
       });
     </script>
- </body>
- </html>
+    <script>
+    function addToCart(id, name, price) {
+    fetch('../function/cart.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id,
+            name: name,
+            price: price
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Produk berhasil ditambahkan ke keranjang!');
+            updateCartCount(); // opsional: update badge count tanpa reload
+        } else {
+            alert('Gagal menambahkan ke keranjang.');
+        }
+    });
+    }
+
+    function updateCartCount() {
+    fetch('../function/cart_count.php') // kamu buat file ini nanti
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('cartCount').textContent = data.count;
+    });
+    }
+</script>
+<script>
+function updateQuantity(id, action) {
+    fetch('../function/update_cart.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id, action: action })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            location.reload(); // atau updateCartView() untuk dynamic
+        }
+    });
+}
+
+function removeItem(id) {
+    if (confirm("Hapus produk ini dari keranjang?")) {
+        fetch('../function/remove_from_cart.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                location.reload(); // atau updateCartView()
+            }
+        });
+    }
+}
+</script>
+</body>
+</html>
