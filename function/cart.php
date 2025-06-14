@@ -1,20 +1,33 @@
 <?php
 session_start();
-$cart = $_SESSION['cart'] ?? [];
-$total = 0;
-?>
+header('Content-Type: application/json');
 
-<?php if (!empty($cart)) : ?>
-  <ul class="list-group">
-    <?php foreach ($cart as $item) : ?>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <?= $item['name'] ?> (<?= $item['qty'] ?>)
-        <span>Rp<?= number_format($item['price'] * $item['qty'], 0, ',', '.') ?></span>
-      </li>
-      <?php $total += $item['price'] * $item['qty']; ?>
-    <?php endforeach; ?>
-  </ul>
-  <div class="mt-2 fw-bold">Total: Rp<?= number_format($total, 0, ',', '.') ?></div>
-<?php else : ?>
-  <p class="text-muted">Keranjang kosong.</p>
-<?php endif; ?>
+$data = json_decode(file_get_contents("php://input"), true);
+
+if (!$data) {
+    echo json_encode(['success' => false, 'message' => 'Invalid input']);
+    exit;
+}
+
+$id = $data['id'];
+$name = $data['name'];
+$price = $data['price'];
+
+$item = [
+    'id' => $id,
+    'name' => $name,
+    'price' => $price,
+    'quantity' => 1
+];
+
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
+
+if (isset($_SESSION['cart'][$id])) {
+    $_SESSION['cart'][$id]['quantity'] += 1;
+} else {
+    $_SESSION['cart'][$id] = $item;
+}
+
+echo json_encode(['success' => true, 'message' => 'Item added']);
