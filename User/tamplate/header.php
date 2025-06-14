@@ -49,24 +49,53 @@
                     <!-- ACCOUNT -->
                     <div class="col-12 col-md-3 d-flex justify-content-center justify-content-md-end">
                         <!-- Cart Dropdown -->
-                        <div class="position-relative me-3" style="max-width: 400px;">
+                        <div class="position-relative me-3" style="max-width: 500px;">
                             <a href="#" class="text-white text-decoration-none d-flex align-items-center" id="cartToggle">
                                 <i class="fa fa-shopping-cart text-white top-header-icon me-1"></i> Cart
-                                <span class="badge bg-secondary ms-1" id="cartCount">0</span>
+                                <span class="badge bg-secondary ms-1" id="cartCount">
+                                    <?= isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'], 'quantity')) : 0; ?>
+                                </span>
                             </a>
 
-                            <div id="cartDropdown">
+                            <div id="cartDropdown" class="dropdown-menu p-3" style="min-width: 300px;">
                                 <h5 class="fw-bold mb-3">Keranjang</h5>
-                                <div id="cartItems"></div>
-                                <div class="d-flex justify-content-between mt-3">
-                                    <strong>Total:</strong>
-                                    <strong id="cartTotal">Rp 0</strong>
-                                </div>
-                                <div class="d-flex justify-content-between gap-2 mt-3">
-                                    <a href="../function/cart.php" class="btn btn-dark w-50 text-white">View Cart</a>
-                                    <a href="checkout.php" class="btn btn-danger w-50">Checkout</a>
-                                </div>
+                                <div id="cartItems">
+                                <?php
+                                $total = 0;
+                                if (!empty($_SESSION['cart'])):
+                                    foreach ($_SESSION['cart'] as $item):
+                                $subtotal = $item['price'] * $item['quantity'];
+                                $total += $subtotal;
+                                ?>
+                            <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-2">
+                            <div class="flex-grow-1 me-2">
+                            <strong><?= $item['name'] ?></strong><br>
+                            <small>Qty: 
+                                <button onclick="updateQuantity(<?= $item['id'] ?>, 'decrease')" class="btn btn-sm btn-outline-secondary py-0 px-1">-</button>
+                                <?= $item['quantity'] ?>
+                                <button onclick="updateQuantity(<?= $item['id'] ?>, 'increase')" class="btn btn-sm btn-outline-secondary py-0 px-1">+</button>
+                            </small>
                             </div>
+                            <img src="<?= $item['$imageUrl'] ?>" alt="<?= $item['name'] ?>" width="50">
+                            <div class="text-end">
+                            <div>Rp<?= number_format($subtotal) ?></div>
+                            <button onclick="removeItem(<?= $item['id'] ?>)" class="btn btn-sm btn-danger py-0 px-1 mt-1"></button>
+                            </div>
+                            </div>
+                            <?php endforeach; else: ?>
+                            <p class="text-muted">Keranjang kosong.</p>
+                            <?php endif; ?>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3 border-top pt-2">
+                            <strong>Total:</strong>
+                            <strong id="cartTotal">Rp <?= number_format($total) ?></strong>
+                        </div>
+                        <div class="d-flex justify-content-between gap-2 mt-3">
+                            <a href="../function/cart.php" class="btn btn-dark w-50 text-white">View Cart</a>
+                            <a href="checkout.php" class="btn btn-danger w-50">Checkout</a>
+                            </div>
+                        </div>
+
                         </div>
                         <div class="dropdown">
                             <?php if (isset($_SESSION['username'])): ?>
@@ -74,15 +103,15 @@
                                     <i class="fa fa-user top-header-icon me-1"></i> <?= $_SESSION['username'] ?>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                                    <li><a class="dropdown-item" href="../User/logout.php"><i class="fa fa-sign-out me-2"></i>Logout</a></li>
+                                    <li><a class="dropdown-item" href="../user/logout.php"><i class="fa fa-sign-out me-2"></i>Logout</a></li>
                                 </ul>
                             <?php else: ?>
                                 <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa fa-user top-header-icon me-1"></i> My Account
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                                    <li><a class="dropdown-item" href="../User/login.php"><i class="fa fa-sign-in me-2"></i>Login</a></li>
-                                    <li><a class="dropdown-item" href="../User/register.php"><i class="fa fa-user-plus me-2"></i>Register</a></li>
+                                    <li><a class="dropdown-item" href="../user/login.php"><i class="fa fa-sign-in me-2"></i>Login</a></li>
+                                    <li><a class="dropdown-item" href="../user/register.php"><i class="fa fa-user-plus me-2"></i>Register</a></li>
                                 </ul>
                             <?php endif; ?>
                         </div>
